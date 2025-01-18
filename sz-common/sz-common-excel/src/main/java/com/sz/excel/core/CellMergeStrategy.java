@@ -54,18 +54,15 @@ public class CellMergeStrategy extends AbstractMergeStrategy {
         this.cellList = handle(list, hasTitle);
     }
 
-    @Override
     protected void merge(Sheet sheet, Cell cell, Head head, Integer relativeRowIndex) {
-        // judge the list is not null
-        if (!cellList.isEmpty()) {
-            // the judge is necessary
-            if (cell.getRowIndex() == rowIndex && cell.getColumnIndex() == 0) {
-                for (CellRangeAddress item : cellList) {
-                    sheet.addMergedRegion(item);
-                }
+        // 如果 cellList 不为空，并且当前单元格是第一列的第一行，则合并单元格
+        if (!cellList.isEmpty() && cell.getRowIndex() == rowIndex && cell.getColumnIndex() == 0) {
+            for (CellRangeAddress item : cellList) {
+                sheet.addMergedRegion(item);
             }
         }
     }
+
 
     @SneakyThrows
     private List<CellRangeAddress> handle(List<?> list, boolean hasTitle) {
@@ -74,17 +71,46 @@ public class CellMergeStrategy extends AbstractMergeStrategy {
             return cellList;
         }
 
-        Field[] fields = Utils.getFields(list.get(0).getClass());
-
-        // 有注解的字段
+        // 获取字段信息并初始化合并字段
         List<Field> mergeFields = new ArrayList<>();
         List<Integer> mergeFieldsIndex = new ArrayList<>();
+        int rowIndex = initializeMergeFields(list.get(0).getClass(), mergeFields, mergeFieldsIndex, hasTitle);
+
+        // 处理合并逻辑
+        Map<Field, Object> prevRowValues = new HashMap<>();
+        for (int i = 1; i < list.size(); i++) {
+            boolean merged = false;
+            for (int j = 0; j < mergeFields.size(); j++) {
+                Field field = mergeFields.get(j);
+                Object currentValue = Utils.invokeGetter(list.get(i), field.getName());
+                Object prevValue = prevRowValues.get(field);
+
+                if (prevValue != null && prevValue.equals(currentValue)) {
+                    if (!merged) {
+                        int colNum = mergeFieldsIndex.get(j) - 1;
+                        cellList.add(new CellRangeAddress(i - 1 + rowIndex, i + rowIndex, colNum, colNum));
+                        merged = true;
+                    }
+                } else {
+                    prevRowValues.put(field, currentValue);
+                }
+            }
+        }
+
+        return cellList;
+    }
+
+    private int initializeMergeFields(Class<?> clazz, List<Field> mergeFields, List<Integer> mergeFieldsIndex, boolean hasTitle) {
+        Field[] fields = Utils.getFields(clazz);
+        int rowIndex = 0;
+
         for (int i = 0; i < fields.length; i++) {
             Field field = fields[i];
             if (field.isAnnotationPresent(CellMerge.class)) {
                 CellMerge cm = field.getAnnotation(CellMerge.class);
                 mergeFields.add(field);
                 mergeFieldsIndex.add(cm.index() == -1 ? i : cm.index());
+
                 if (hasTitle) {
                     ExcelProperty property = field.getAnnotation(ExcelProperty.class);
                     rowIndex = Math.max(rowIndex, property.value().length);
@@ -92,38 +118,9 @@ public class CellMergeStrategy extends AbstractMergeStrategy {
             }
         }
 
-        // 生成两两合并单元格
-        for (int i = 0; i < list.size(); i++) {
-            boolean merged = false;
-            if (i > 0) {
-                // 存储前一行的字段值
-                Map<Field, Object> prevRowValues = new HashMap<>();
-                for (int j = 0; j < mergeFields.size(); j++) {
-                    Field field = mergeFields.get(j);
-                    Object prevVal = Utils.invokeGetter(list.get(i - 1), field.getName());
-                    prevRowValues.put(field, prevVal);
-                }
-
-                // 检查当前行与前一行的字段值是否相同
-                for (int j = 0; j < mergeFields.size(); j++) {
-                    Field field = mergeFields.get(j);
-                    Object val = Utils.invokeGetter(list.get(i), field.getName());
-                    Object prevVal = prevRowValues.get(field);
-                    if (prevVal != null && prevVal.equals(val)) {
-                        // 合并逻辑
-                        if (!merged) {
-                            for (int k = i - 1; k < i; k++) {
-                                int colNum = mergeFieldsIndex.get(j) - 1; // 注意下标（要-1）
-                                cellList.add(new CellRangeAddress(k + rowIndex, i + rowIndex, colNum, colNum));
-                            }
-                            merged = true;
-                        }
-                    }
-                }
-            }
-        }
-        return cellList;
+        return rowIndex;
     }
+
 
     @Data
     @AllArgsConstructor

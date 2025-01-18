@@ -39,7 +39,7 @@ public class BeanCopyUtils {
      * @deprecated 此方法将在后续版本中弃用，请使用 `ModelMapper` 实现。
      * @since 2021-09-01
      */
-    @Deprecated
+    @Deprecated(since = "2021-09-01",forRemoval = true)
     public static <T, M> void springCopy(T source, M target) {
         BeanUtils.copyProperties(source, target);
     }
@@ -59,7 +59,7 @@ public class BeanCopyUtils {
      * @return 转换后的目标对象实例
      * @deprecated 使用 `ModelMapper` 替代此方法，以支持更加灵活的对象转换。
      */
-    @Deprecated
+    @Deprecated(since = "2021-09-01",forRemoval = true)
     public static <T> T springCopy(Object source, Class<T> clazz) {
         T target = BeanUtils.instantiateClass(clazz);
         BeanUtils.copyProperties(source, target);

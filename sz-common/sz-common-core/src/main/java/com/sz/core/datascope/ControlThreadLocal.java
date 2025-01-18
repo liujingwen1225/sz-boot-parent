@@ -9,6 +9,10 @@ import com.sz.core.common.entity.ControlPermissions;
  */
 public class ControlThreadLocal {
 
+    private ControlThreadLocal() {
+        throw new IllegalStateException("Utility class");
+    }
+
     protected static TransmittableThreadLocal<ControlPermissions> LOCAL = new TransmittableThreadLocal<>();
 
     public static void set(ControlPermissions permission) {

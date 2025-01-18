@@ -33,6 +33,8 @@ public class CaptchaServiceImpl implements CaptchaService {
 
     private final RedisCache redisCache;
 
+    private final Random random = new Random();
+
     @SneakyThrows
     @Override
     public SliderPuzzle getImageCode(HttpServletRequest request) {
@@ -48,7 +50,6 @@ public class CaptchaServiceImpl implements CaptchaService {
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         Resource[] resources = resolver.getResources("classpath:/templates/background/*.png"); // 读取背景图片库
         CommonResponseEnum.BACKGROUND_NOT_EXISTS.assertTrue(resources.length == 0);
-        Random random = new Random();
         Resource resource = resources[random.nextInt(resources.length)]; // 从背景库中随机获取一张
         SliderPuzzle sliderPuzzle = SlidePuzzleUtil.createImage(resource.getInputStream(), request); // 生成验证码
         CommonResponseEnum.FILE_NOT_EXISTS.assertNull(sliderPuzzle);
@@ -74,7 +75,7 @@ public class CaptchaServiceImpl implements CaptchaService {
         CommonResponseEnum.CAPTCHA_EXPIRED.assertFalse(redisCache.existCaptcha(requestId));
         PointVO pointVO = redisCache.getCaptcha(checkPuzzle.getRequestId());
         redisCache.clearCaptcha(requestId); // 用后即消
-        String str = AESUtil.aesDecrypt(checkPuzzle.getMoveEncrypted(), pointVO.getSecretKey()); // 解密，获取x位移距离
+        String str = AESUtil.aesDecrypt(checkPuzzle.getMoveEncrypted(), pointVO.getSecretKey(), checkPuzzle.getIv()); // 解密，获取x位移距离
         int posX = 0;
         if (Utils.isNotNull(str)) {
             double posXDouble = Double.parseDouble(str); // 将解密结果转换为double类型
