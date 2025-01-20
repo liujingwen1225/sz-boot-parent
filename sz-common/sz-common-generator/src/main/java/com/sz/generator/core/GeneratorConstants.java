@@ -21,37 +21,6 @@ public class GeneratorConstants {
     public static final String TPL_CRUD = "crud";
 
     /**
-     * 树编码字段
-     */
-    public static final String TREE_CODE = "treeCode";
-
-    /**
-     * 树父编码字段
-     */
-    public static final String TREE_PARENT_CODE = "treeParentCode";
-
-    /**
-     * 树名称字段
-     */
-    public static final String TREE_NAME = "treeName";
-
-    /**
-     * 上级菜单ID字段
-     */
-    public static final String PARENT_MENU_ID = "parentMenuId";
-
-    /**
-     * 上级菜单名称字段
-     */
-    public static final String PARENT_MENU_NAME = "parentMenuName";
-
-    /**
-     * 数据库数字类型
-     */
-    public static final String[] COLUMNTYPE_NUMBER = {"tinyint", "smallint", "mediumint", "int", "number", "integer", "bit", "bigint", "float", "double",
-            "decimal"};
-
-    /**
      * 不需要插入的字段
      */
     public static final String[] COLUMNNAME_NOT_INSERT = {"create_id", "create_time", "del_flag", "update_id", "update_time", "delete_id", "delete_time"};
@@ -82,15 +51,6 @@ public class GeneratorConstants {
      */
     public static final String[] COLUMNNAME_AUTOFILL_UPDATE = {"update_id", "update_time"};
 
-    /**
-     * Entity基类字段
-     */
-    public static final String[] BASE_ENTITY = {"createId", "createTime", "updateId", "updateTime", "remark"};
-
-    /**
-     * Tree基类字段
-     */
-    public static final String[] TREE_ENTITY = {"parentName", "parentId", "orderNum", "ancestors", "children"};
 
     /**
      * 文本框

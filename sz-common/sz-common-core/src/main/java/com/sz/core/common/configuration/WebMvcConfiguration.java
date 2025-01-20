@@ -35,7 +35,7 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport implements W
 
     @Override
     protected void configureMessageConverters(@NonNull List<HttpMessageConverter<?>> converters) {
-        this.messageConverters.ifAvailable((customConverters) -> converters.addAll(customConverters.getConverters()));
+        this.messageConverters.ifAvailable(customConverters -> converters.addAll(customConverters.getConverters()));
     }
 
     @Override

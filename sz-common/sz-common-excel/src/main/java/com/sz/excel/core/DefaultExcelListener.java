@@ -33,7 +33,7 @@ public class DefaultExcelListener<T> extends AnalysisEventListener<T> implements
     /**
      * 是否Validator检验，默认为是
      */
-    private Boolean validateHeader = true;
+    private boolean validateHeader = true;
 
     /**
      * excel 表头数据

@@ -38,11 +38,8 @@ public abstract class AbstractExcelDictConvert<T> implements Converter<T> {
         }
 
         // 根据是否使用Alias构造字典映射
-        Map<String, String> map = StreamUtils.toMap(
-                dictLists,
-                vo -> anno.useAlias() && vo.getAlias() != null ? vo.getAlias() : vo.getId(),
-                vo -> vo.getCodeName() != null ? vo.getCodeName() : ""
-        );
+        Map<String, String> map = StreamUtils.toMap(dictLists, vo -> anno.useAlias() && vo.getAlias() != null ? vo.getAlias() : vo.getId(),
+                vo -> vo.getCodeName() != null ? vo.getCodeName() : "");
 
         // 返回对应的标签，找不到时返回空字符串
         return map.getOrDefault(dictValue, "");

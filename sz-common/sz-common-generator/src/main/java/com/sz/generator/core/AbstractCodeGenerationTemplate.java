@@ -22,7 +22,7 @@ import java.util.Map;
  * @since 2024/1/15 15:51
  */
 @Slf4j
-public abstract  class AbstractCodeGenerationTemplate {
+public abstract class AbstractCodeGenerationTemplate {
 
     private final FreeMarkerConfigurer configurer;
 

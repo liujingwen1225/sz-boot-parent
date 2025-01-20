@@ -63,18 +63,17 @@ public class CellMergeStrategy extends AbstractMergeStrategy {
         }
     }
 
-
     @SneakyThrows
     private List<CellRangeAddress> handle(List<?> list, boolean hasTitle) {
-        List<CellRangeAddress> cellList = new ArrayList<>();
+        List<CellRangeAddress> localCellList = new ArrayList<>(); // Local variables should not shadow class fields
         if (list.isEmpty()) {
-            return cellList;
+            return localCellList;
         }
 
         // 获取字段信息并初始化合并字段
         List<Field> mergeFields = new ArrayList<>();
         List<Integer> mergeFieldsIndex = new ArrayList<>();
-        int rowIndex = initializeMergeFields(list.get(0).getClass(), mergeFields, mergeFieldsIndex, hasTitle);
+        int startRowIndex = initializeMergeFields(list.getFirst().getClass(), mergeFields, mergeFieldsIndex, hasTitle);
 
         // 处理合并逻辑
         Map<Field, Object> prevRowValues = new HashMap<>();
@@ -88,7 +87,7 @@ public class CellMergeStrategy extends AbstractMergeStrategy {
                 if (prevValue != null && prevValue.equals(currentValue)) {
                     if (!merged) {
                         int colNum = mergeFieldsIndex.get(j) - 1;
-                        cellList.add(new CellRangeAddress(i - 1 + rowIndex, i + rowIndex, colNum, colNum));
+                        localCellList.add(new CellRangeAddress(i - 1 + startRowIndex, i + startRowIndex, colNum, colNum));
                         merged = true;
                     }
                 } else {
@@ -97,13 +96,12 @@ public class CellMergeStrategy extends AbstractMergeStrategy {
             }
         }
 
-        return cellList;
+        return localCellList;
     }
 
     private int initializeMergeFields(Class<?> clazz, List<Field> mergeFields, List<Integer> mergeFieldsIndex, boolean hasTitle) {
         Field[] fields = Utils.getFields(clazz);
-        int rowIndex = 0;
-
+        int startRowIndex = 0;
         for (int i = 0; i < fields.length; i++) {
             Field field = fields[i];
             if (field.isAnnotationPresent(CellMerge.class)) {
@@ -113,14 +111,13 @@ public class CellMergeStrategy extends AbstractMergeStrategy {
 
                 if (hasTitle) {
                     ExcelProperty property = field.getAnnotation(ExcelProperty.class);
-                    rowIndex = Math.max(rowIndex, property.value().length);
+                    startRowIndex = Math.max(startRowIndex, property.value().length);
                 }
             }
         }
 
-        return rowIndex;
+        return startRowIndex;
     }
-
 
     @Data
     @AllArgsConstructor

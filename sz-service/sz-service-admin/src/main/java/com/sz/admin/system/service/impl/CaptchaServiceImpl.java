@@ -18,6 +18,12 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.stereotype.Service;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Random;
 
 /**
@@ -69,7 +75,8 @@ public class CaptchaServiceImpl implements CaptchaService {
     }
 
     @Override
-    public void checkImageCode(CheckPuzzle checkPuzzle) throws Exception {
+    public void checkImageCode(CheckPuzzle checkPuzzle) throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException,
+            NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
         String requestId = checkPuzzle.getRequestId();
         CommonResponseEnum.CAPTCHA_LACK.assertNull(checkPuzzle.getMoveEncrypted());
         CommonResponseEnum.CAPTCHA_EXPIRED.assertFalse(redisCache.existCaptcha(requestId));
@@ -77,7 +84,8 @@ public class CaptchaServiceImpl implements CaptchaService {
         redisCache.clearCaptcha(requestId); // 用后即消
         String str = AESUtil.aesDecrypt(checkPuzzle.getMoveEncrypted(), pointVO.getSecretKey(), checkPuzzle.getIv()); // 解密，获取x位移距离
         int posX = 0;
-        if (Utils.isNotNull(str)) {
+        if (Utils.isNotNull(str)) { // 我在使用 sonar检测代码， 这行报错 Avoid using boxed "Boolean" types directly in boolean
+                                    // expressions，我应该如何解决他
             double posXDouble = Double.parseDouble(str); // 将解密结果转换为double类型
             posX = (int) Math.round(posXDouble); // 四舍五入取整
         }
