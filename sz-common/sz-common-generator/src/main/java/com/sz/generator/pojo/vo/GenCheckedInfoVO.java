@@ -11,7 +11,7 @@ import lombok.Data;
 public class GenCheckedInfoVO {
 
     @Schema(description = "API路径验证状态")
-    private Boolean checkedApiPath =true;
+    private Boolean checkedApiPath = true;
 
     @Schema(description = "Web路径验证状态")
     private Boolean checkedWebPath = true;

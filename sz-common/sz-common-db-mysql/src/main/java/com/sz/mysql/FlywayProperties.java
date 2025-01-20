@@ -30,7 +30,7 @@ public class FlywayProperties {
 
         private boolean validateOnMigrate = true;
 
-        private String baselineVersion =  "1";
+        private String baselineVersion = "1";
 
     }
 }

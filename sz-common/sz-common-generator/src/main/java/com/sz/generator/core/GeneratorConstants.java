@@ -51,7 +51,6 @@ public class GeneratorConstants {
      */
     public static final String[] COLUMNNAME_AUTOFILL_UPDATE = {"update_id", "update_time"};
 
-
     /**
      * 文本框
      */

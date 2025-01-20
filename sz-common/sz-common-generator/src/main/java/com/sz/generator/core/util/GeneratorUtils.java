@@ -17,6 +17,10 @@ import java.util.Arrays;
  */
 public class GeneratorUtils {
 
+    private GeneratorUtils() {
+        throw new IllegalStateException("GeneratorUtils class Illegal");
+    }
+
     public static GeneratorTable initGeneratorTable(TableResult table) {
 
         GeneratorProperties prop = SpringApplicationContextUtils.getBean(GeneratorProperties.class);

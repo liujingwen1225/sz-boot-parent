@@ -20,6 +20,10 @@ import java.util.Map;
 @Slf4j
 public class JsonUtils {
 
+    private JsonUtils() {
+        throw new IllegalStateException("Utility class");
+    }
+
     private static final ObjectMapper OBJECT_MAPPER = SpringApplicationContextUtils.getBean(ObjectMapper.class);
 
     /**
@@ -85,7 +89,7 @@ public class JsonUtils {
         try {
             return OBJECT_MAPPER.writeValueAsString(object);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            throw new IllegalArgumentException(e);
         }
     }
 
@@ -103,7 +107,7 @@ public class JsonUtils {
         try {
             return OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValueAsString(object);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            throw new IllegalArgumentException(e);
         }
     }
 
@@ -125,7 +129,7 @@ public class JsonUtils {
         try {
             return OBJECT_MAPPER.readValue(text, clazz);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new IllegalArgumentException(e);
         }
     }
 
@@ -147,7 +151,7 @@ public class JsonUtils {
         try {
             return OBJECT_MAPPER.readValue(text, typeReference);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new IllegalArgumentException(e);
         }
     }
 
@@ -171,7 +175,7 @@ public class JsonUtils {
         try {
             return OBJECT_MAPPER.readValue(text, OBJECT_MAPPER.getTypeFactory().constructParametricType(parametrized, parameterClasses));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new IllegalArgumentException(e);
         }
     }
 
@@ -187,7 +191,7 @@ public class JsonUtils {
             return OBJECT_MAPPER.readValue(jsonString, new TypeReference<Map<String, Object>>() {
             });
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            throw new IllegalArgumentException(e);
         }
     }
 
@@ -209,7 +213,7 @@ public class JsonUtils {
         try {
             return OBJECT_MAPPER.readValue(text, OBJECT_MAPPER.getTypeFactory().constructCollectionType(List.class, clazz));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new IllegalArgumentException(e);
         }
     }
 
@@ -231,7 +235,7 @@ public class JsonUtils {
         try {
             return OBJECT_MAPPER.readValue(text, typeReference);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new IllegalArgumentException(e);
         }
     }
 }

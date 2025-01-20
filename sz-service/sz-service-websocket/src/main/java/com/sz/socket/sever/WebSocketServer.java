@@ -126,7 +126,7 @@ public class WebSocketServer extends TextWebSocketHandler {
                 session.close();
             } catch (IOException e) {
                 log.error("【websocket消息】连接断开异常，error", e);
-                throw new RuntimeException(e);
+                throw new IllegalArgumentException(e);
             }
         }
     }
@@ -200,7 +200,7 @@ public class WebSocketServer extends TextWebSocketHandler {
                     log.info(" 优雅退出，关闭 websocket 连接 ...");
                 } catch (IOException e) {
                     log.error("【websocket消息】连接断开异常，error", e);
-                    throw new RuntimeException(e);
+                    throw new IllegalArgumentException(e);
                 }
             }
         }

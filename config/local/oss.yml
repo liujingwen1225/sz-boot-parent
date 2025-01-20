@@ -1,11 +1,9 @@
 oss:
-  # 支持S3协议的厂商
-  provider: MINIO
-  endpoint: 192.168.56.101:9000
-  accessKey: a4jtJvgEmk4ead5dzac6
-  secretKey: UW6kxTGRetIAahV759rFkgoQ8ilXLRUMW0ULdIoo
+  provider: minio
+  endpoint: minioapi.szadmin.cn
+  accessKey: EBPVrHftB014oEKdR9y8
+  secretKey: PEIjn42TWp1jZ9SEl05ouhWG8nA8zv1zk3deD92G
   bucketName: test
-  domain: http://192.168.56.101:9000
-  is-https: false
-  # 命名方式: UUID、ORIGINAL原文件名偏好，冲突会补充时间
+  domain: https://minioapi.szadmin.cn
+  is-https: true
   naming: original

@@ -143,7 +143,7 @@ public class Utils {
             byte[] digest = md.digest(input.getBytes());
             return bytesToHex(digest);
         } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
+            throw new IllegalArgumentException(e);
         }
     }
 

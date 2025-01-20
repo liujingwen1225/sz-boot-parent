@@ -71,7 +71,8 @@ public class AESUtil {
      *            初始化向量 (IV)，确保每次加密不同
      * @return 加密后的byte[]
      */
-    public static byte[] aesEncryptToBytes(String content, String encryptKey, byte[] iv) throws Exception {
+    public static byte[] aesEncryptToBytes(String content, String encryptKey, byte[] iv) throws NoSuchPaddingException, NoSuchAlgorithmException,
+            InvalidAlgorithmParameterException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
         // 生成AES密钥
         SecretKeySpec keySpec = new SecretKeySpec(encryptKey.getBytes(StandardCharsets.UTF_8), "AES");
 
@@ -95,7 +96,8 @@ public class AESUtil {
      *            初始化向量 (IV)，确保每次加密不同
      * @return 加密后的base 64 code
      */
-    public static String aesEncrypt(String content, String encryptKey, byte[] iv) throws Exception {
+    public static String aesEncrypt(String content, String encryptKey, byte[] iv) throws InvalidAlgorithmParameterException, NoSuchPaddingException,
+            IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
         if (StringUtils.isBlank(encryptKey)) {
             return content;
         }

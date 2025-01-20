@@ -132,7 +132,7 @@ public class TreeUtils {
             // 处理异常
             return null;
         } catch (InvocationTargetException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+            throw new IllegalArgumentException(e);
         }
     }
 

@@ -38,10 +38,14 @@ public class ExcelUtils {
      * 该方法从输入流中读取 Excel 文件，使用指定的类进行解析，并在解析过程中提供自定义字典转换。 可选择验证 Excel
      * 文件的表头格式。解析完成后，返回包含解析结果的对象。
      *
-     * @param is             Excel 文件的输入流
-     * @param clazz          用于映射 Excel 数据的类类型
-     * @param validateHeader 是否验证表头格式
-     * @param <T>            解析结果的类型
+     * @param is
+     *            Excel 文件的输入流
+     * @param clazz
+     *            用于映射 Excel 数据的类类型
+     * @param validateHeader
+     *            是否验证表头格式
+     * @param <T>
+     *            解析结果的类型
      * @return 包含解析结果的 ExcelResult 对象
      */
 
@@ -50,8 +54,8 @@ public class ExcelUtils {
         Map<String, List<DictVO>> dictmap = getDictList();
         ExcelListenerFactory listenerFactory = SpringApplicationContextUtils.getBean(ExcelListenerFactory.class);
         DefaultExcelListener<T> listener = listenerFactory.createListener(validateHeader, clazz);
-        FastExcelFactory.read(is, clazz, listener).registerConverter(new CustomStringStringConvert(dictmap)).registerConverter(new CustomIntegerStringConvert(dictmap))
-                .registerConverter(new CustomLongStringConvert(dictmap)).sheet().doRead();
+        FastExcelFactory.read(is, clazz, listener).registerConverter(new CustomStringStringConvert(dictmap))
+                .registerConverter(new CustomIntegerStringConvert(dictmap)).registerConverter(new CustomLongStringConvert(dictmap)).sheet().doRead();
         return listener.getExcelResult();
     }
 
@@ -94,9 +98,12 @@ public class ExcelUtils {
     /**
      * 解析值(import方向) 男=0,女=1,未知=2 禁言=1000003,禁用=1000002,正常=1000001
      *
-     * @param propertyValue 参数值
-     * @param converterExp  翻译注解
-     * @param separator     分隔符
+     * @param propertyValue
+     *            参数值
+     * @param converterExp
+     *            翻译注解
+     * @param separator
+     *            分隔符
      * @return 解析后值
      */
     public static String reverseByExp(String propertyValue, String converterExp, String separator) {
@@ -113,9 +120,12 @@ public class ExcelUtils {
     /**
      * 解析值(export方向) 禁言=1000003,禁用=1000002,正常=1000001
      *
-     * @param propertyValue 参数值
-     * @param converterExp  翻译注解
-     * @param separator     分隔符
+     * @param propertyValue
+     *            参数值
+     * @param converterExp
+     *            翻译注解
+     * @param separator
+     *            分隔符
      * @return 解析后值
      */
     public static String convertByExp(String propertyValue, String converterExp, String separator) {
@@ -134,8 +144,10 @@ public class ExcelUtils {
      * <p>
      * 该方法根据指定的分隔符，将字符串表达式转换为字符串列表。
      *
-     * @param converterExp 要转换的字符串表达式
-     * @param separator    用于分隔表达式的分隔符
+     * @param converterExp
+     *            要转换的字符串表达式
+     * @param separator
+     *            用于分隔表达式的分隔符
      * @return 转换后的字符串列表
      */
 
