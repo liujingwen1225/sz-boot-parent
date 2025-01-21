@@ -391,7 +391,9 @@ public class DesensitizationUtil {
     }
 
     public static boolean isEmail(String str) {
-        return str.matches("^[\\w-]+@[\\w-]+(\\.[\\w-]+)+$");
+        // 优化后的正则表达式
+        String emailRegex = "^[\\w-\\.]+@[\\w-]+\\.[\\w-]{2,4}$";
+        return str.matches(emailRegex);
     }
 
     public static boolean isIdentity(String str) {

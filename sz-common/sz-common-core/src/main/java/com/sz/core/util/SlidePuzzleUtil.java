@@ -17,6 +17,8 @@ import java.util.Random;
 @Slf4j
 public class SlidePuzzleUtil {
 
+    private static final Random RANDOM = new Random();
+
     private static final Integer bigWidth = 320;
 
     private static final Integer bigHeight = 160;
@@ -81,7 +83,6 @@ public class SlidePuzzleUtil {
     }
 
     private static PointVO generateJigsawPoint(int originalWidth, int originalHeight, int jigsawWidth, int jigsawHeight, String secretKey) {
-        Random random = new Random();
         int widthDifference = originalWidth - jigsawWidth;
         int heightDifference = originalHeight - jigsawHeight;
         int x, y;
@@ -89,13 +90,13 @@ public class SlidePuzzleUtil {
         if (widthDifference <= 0) {
             x = 5;
         } else {
-            x = random.nextInt(widthDifference - 100) + 100 + random.nextInt(20) - 10; // Adding variability
+            x = RANDOM.nextInt(widthDifference - 100) + 100 + RANDOM.nextInt(20) - 10; // Adding variability
         }
 
         if (heightDifference <= 0) {
             y = 5;
         } else {
-            y = random.nextInt(heightDifference) + 5 + random.nextInt(20) - 10; // Adding variability
+            y = RANDOM.nextInt(heightDifference) + 5 + RANDOM.nextInt(20) - 10; // Adding variability
         }
 
         return new PointVO(x, y, secretKey);
@@ -103,15 +104,18 @@ public class SlidePuzzleUtil {
 
     private static int[][] getSlideTemplateData() {
         int[][] data = new int[smallWidth][smallHeight];
-        int xBlank = smallWidth - smallCircle - smallCircleR1;
-        int yBlank = smallHeight - smallCircle - smallCircleR1;
-        int rxa = xBlank / 2;
-        int ryb = smallHeight - smallCircle;
+
+        // 计算常量
+        double xBlank = (double) smallWidth - smallCircle - smallCircleR1;
+        double yBlank = (double) smallHeight - smallCircle - smallCircleR1;
+        double rxa = xBlank / 2.0;
+        double ryb = (double) smallHeight - smallCircle;
         double rPow = Math.pow(smallCircle, 2);
 
         for (int i = 0; i < smallWidth; i++) {
             for (int j = 0; j < smallHeight; j++) {
-                double topR = Math.pow(i - rxa, 2) + Math.pow(j - 2, 2);
+                // 显式类型转换
+                double topR = Math.pow(i - rxa, 2) + Math.pow(j - 2.0, 2);
                 double downR = Math.pow(i - rxa, 2) + Math.pow(j - ryb, 2);
                 double rightR = Math.pow(i - ryb, 2) + Math.pow(j - rxa, 2);
 

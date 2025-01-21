@@ -16,15 +16,20 @@ public class AESUtil {
     }
 
     private static final Random RANDOM = new Random();
+
     private static final String ALGORITHM = "AES/GCM/NoPadding";
+
     private static final int GCM_TAG_LENGTH = 16 * 8; // 128 bits
+
     private static final int GCM_IV_LENGTH = 12; // 96 bits
 
     /**
      * 将byte[]转为各种进制的字符串
      *
-     * @param bytes byte[]
-     * @param radix 可以转换进制的范围，从Character.MIN_RADIX到Character.MAX_RADIX，超出范围后变为10进制
+     * @param bytes
+     *            byte[]
+     * @param radix
+     *            可以转换进制的范围，从Character.MIN_RADIX到Character.MAX_RADIX，超出范围后变为10进制
      * @return 转换后的字符串
      */
     public static String binary(byte[] bytes, int radix) {
@@ -34,7 +39,8 @@ public class AESUtil {
     /**
      * base 64 encode
      *
-     * @param bytes 待编码的byte[]
+     * @param bytes
+     *            待编码的byte[]
      * @return 编码后的base 64 code
      */
     public static String base64Encode(byte[] bytes) {
@@ -44,7 +50,8 @@ public class AESUtil {
     /**
      * base 64 decode
      *
-     * @param base64Code 待解码的base 64 code
+     * @param base64Code
+     *            待解码的base 64 code
      * @return 解码后的byte[]
      */
     public static byte[] base64Decode(String base64Code) {
@@ -55,9 +62,12 @@ public class AESUtil {
     /**
      * AES加密
      *
-     * @param content    待加密的内容
-     * @param encryptKey 加密密钥
-     * @param iv         初始化向量 (IV)，Base64 编码的字符串
+     * @param content
+     *            待加密的内容
+     * @param encryptKey
+     *            加密密钥
+     * @param iv
+     *            初始化向量 (IV)，Base64 编码的字符串
      * @return 加密后的byte[]
      */
     public static byte[] aesEncryptToBytes(String content, String encryptKey, String iv) throws NoSuchPaddingException, NoSuchAlgorithmException,
@@ -78,9 +88,12 @@ public class AESUtil {
     /**
      * AES加密为base 64 code
      *
-     * @param content    待加密的内容
-     * @param encryptKey 加密密钥
-     * @param iv         初始化向量 (IV)，Base64 编码的字符串
+     * @param content
+     *            待加密的内容
+     * @param encryptKey
+     *            加密密钥
+     * @param iv
+     *            初始化向量 (IV)，Base64 编码的字符串
      * @return 加密后的base 64 code
      */
     public static String aesEncrypt(String content, String encryptKey, String iv) throws InvalidAlgorithmParameterException, NoSuchPaddingException,
@@ -94,9 +107,12 @@ public class AESUtil {
     /**
      * AES解密
      *
-     * @param encryptBytes 待解密的byte[]
-     * @param decryptKey   解密密钥
-     * @param iv           初始化向量 (IV)，Base64 编码的字符串
+     * @param encryptBytes
+     *            待解密的byte[]
+     * @param decryptKey
+     *            解密密钥
+     * @param iv
+     *            初始化向量 (IV)，Base64 编码的字符串
      * @return 解密后的String
      */
     public static String aesDecryptByBytes(byte[] encryptBytes, String decryptKey, String iv) throws NoSuchAlgorithmException, NoSuchPaddingException,
@@ -121,9 +137,12 @@ public class AESUtil {
     /**
      * 将base 64 code AES解密
      *
-     * @param encryptStr 待解密的base 64 code
-     * @param decryptKey 解密密钥
-     * @param iv         初始化向量 (IV)，Base64 编码的字符串
+     * @param encryptStr
+     *            待解密的base 64 code
+     * @param decryptKey
+     *            解密密钥
+     * @param iv
+     *            初始化向量 (IV)，Base64 编码的字符串
      * @return 解密后的string
      */
     public static String aesDecrypt(String encryptStr, String decryptKey, String iv) throws InvalidAlgorithmParameterException, NoSuchPaddingException,

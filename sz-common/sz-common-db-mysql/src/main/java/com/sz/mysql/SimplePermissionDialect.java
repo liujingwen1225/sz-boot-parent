@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
 public class SimplePermissionDialect extends CommonsDialectImpl {
 
     private static final String FIELD_CREATE_ID = "create_id";
+
     private static final String FIELD_DEPT_SCOPE = "dept_scope";
 
     @Override
@@ -116,17 +117,17 @@ public class SimplePermissionDialect extends CommonsDialectImpl {
         LoginUser loginUser = LoginUtils.getLoginUser();
         String logicMinUnit = SpringApplicationContextUtils.getBean(DataScopeProperties.class).getLogicMinUnit();
         switch (rule) {
-            case "1006001":
+            case "1006001" :
                 super.prepareAuth(queryWrapper, operateType);
                 return;
-            case "1006002":
+            case "1006002" :
                 handleDeptScope(queryWrapper, loginUser.getDeptAndChildren(), logicMinUnit, alias, tableClazz);
                 break;
-            case "1006003":
+            case "1006003" :
                 handleDeptScope(queryWrapper, loginUser.getDepts(), logicMinUnit, alias, tableClazz);
                 break;
-            case "1006004":
-            default:
+            case "1006004" :
+            default :
                 handlePersonalScope(queryWrapper, loginUser, alias, tableClazz);
                 break;
         }
@@ -139,8 +140,10 @@ public class SimplePermissionDialect extends CommonsDialectImpl {
         if (!Boolean.TRUE.equals(context)) {
             Map<String, Set<Long>> userRuleMap = loginUser.getUserRuleMap();
             Map<String, Set<Long>> deptRuleMap = loginUser.getDeptRuleMap();
-            Set<Long> customUserIds = determineCustomRuleRelationIds(permissions.getPermissions(), loginUser.getPermissionAndMenuIds(), userRuleMap, permissions.getMode());
-            Set<Long> customDeptIds = determineCustomRuleRelationIds(permissions.getPermissions(), loginUser.getPermissionAndMenuIds(), deptRuleMap, permissions.getMode());
+            Set<Long> customUserIds = determineCustomRuleRelationIds(permissions.getPermissions(), loginUser.getPermissionAndMenuIds(), userRuleMap,
+                    permissions.getMode());
+            Set<Long> customDeptIds = determineCustomRuleRelationIds(permissions.getPermissions(), loginUser.getPermissionAndMenuIds(), deptRuleMap,
+                    permissions.getMode());
 
             Consumer<QueryWrapper> queryHandler = getQueryHandler(userRuleMap, deptRuleMap, customUserIds, customDeptIds, alias, tableClazz);
             if (queryHandler != null) {
@@ -151,10 +154,9 @@ public class SimplePermissionDialect extends CommonsDialectImpl {
     }
 
     private Consumer<QueryWrapper> getQueryHandler(Map<String, Set<Long>> userRuleMap, Map<String, Set<Long>> deptRuleMap, Set<Long> customUserIds,
-                                                   Set<Long> customDeptIds, String alias, Class<?> tableClazz) {
+            Set<Long> customDeptIds, String alias, Class<?> tableClazz) {
         if (!userRuleMap.isEmpty() && !deptRuleMap.isEmpty()) {
-            return wrapper -> wrapper.and(handleCustomUserRelation(customUserIds))
-                    .or(handleCustomDeptRelation(customDeptIds, alias, tableClazz));
+            return wrapper -> wrapper.and(handleCustomUserRelation(customUserIds)).or(handleCustomDeptRelation(customDeptIds, alias, tableClazz));
         } else if (!userRuleMap.isEmpty()) {
             return wrapper -> wrapper.and(handleCustomUserRelation(customUserIds));
         } else if (!deptRuleMap.isEmpty()) {
@@ -194,10 +196,7 @@ public class SimplePermissionDialect extends CommonsDialectImpl {
             return "";
         }
 
-        Set<String> menuIds = Arrays.stream(permissionKeys)
-                .filter(permissionAccessMap::containsKey)
-                .map(permissionAccessMap::get)
-                .collect(Collectors.toSet());
+        Set<String> menuIds = Arrays.stream(permissionKeys).filter(permissionAccessMap::containsKey).map(permissionAccessMap::get).collect(Collectors.toSet());
 
         if (menuIds.isEmpty()) {
             return "";
@@ -211,22 +210,18 @@ public class SimplePermissionDialect extends CommonsDialectImpl {
             return "";
         }
 
-        return menuIds.stream()
-                .map(menuId -> ruleScopeMap.getOrDefault(menuId, ""))
-                .reduce((scope1, scope2) -> mode.equals("or") ? maxRuleScope(scope1, scope2) : minRuleScope(scope1, scope2))
-                .orElse("");
+        return menuIds.stream().map(menuId -> ruleScopeMap.getOrDefault(menuId, ""))
+                .reduce((scope1, scope2) -> mode.equals("or") ? maxRuleScope(scope1, scope2) : minRuleScope(scope1, scope2)).orElse("");
     }
 
-    private Set<Long> determineCustomRuleRelationIds(String[] permissionKeys, Map<String, String> permissionAccessMap, Map<String, Set<Long>> ruleRelation, String mode) {
+    private Set<Long> determineCustomRuleRelationIds(String[] permissionKeys, Map<String, String> permissionAccessMap, Map<String, Set<Long>> ruleRelation,
+            String mode) {
         Set<Long> relationId = new HashSet<>();
         if (ruleRelation.isEmpty()) {
             return relationId;
         }
 
-        Set<String> menuIds = Arrays.stream(permissionKeys)
-                .filter(permissionAccessMap::containsKey)
-                .map(permissionAccessMap::get)
-                .collect(Collectors.toSet());
+        Set<String> menuIds = Arrays.stream(permissionKeys).filter(permissionAccessMap::containsKey).map(permissionAccessMap::get).collect(Collectors.toSet());
 
         if (menuIds.isEmpty()) {
             return relationId;
@@ -240,10 +235,8 @@ public class SimplePermissionDialect extends CommonsDialectImpl {
             return relationId;
         }
 
-        return menuIds.stream()
-                .map(menuId -> ruleRelation.getOrDefault(menuId, relationId))
-                .reduce((relation1, relation2) -> mode.equals("or") ? maxRelation(relation1, relation2) : minRelation(relation1, relation2))
-                .orElse(relationId);
+        return menuIds.stream().map(menuId -> ruleRelation.getOrDefault(menuId, relationId))
+                .reduce((relation1, relation2) -> mode.equals("or") ? maxRelation(relation1, relation2) : minRelation(relation1, relation2)).orElse(relationId);
     }
 
     private boolean isFieldExists(Class<?> clazz, String fieldName) {
