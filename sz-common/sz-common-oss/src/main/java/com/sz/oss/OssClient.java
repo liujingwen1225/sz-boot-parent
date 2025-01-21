@@ -320,7 +320,7 @@ public class OssClient {
             return eTag;
         }
         // 替换掉前后的双引号
-        return eTag.replaceAll("^\"|\"$", "");
+        return eTag.replaceAll("(^\")|(\"$)", "");
     }
 
 }
