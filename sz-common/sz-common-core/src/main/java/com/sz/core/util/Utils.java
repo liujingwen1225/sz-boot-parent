@@ -84,9 +84,7 @@ public class Utils {
     }
 
     public static String md5(String str) {
-        String md5 = "  ";
-        md5 = DigestUtils.md5DigestAsHex(str.getBytes(StandardCharsets.UTF_8));
-        return md5;
+        return DigestUtils.md5DigestAsHex(str.getBytes(StandardCharsets.UTF_8));
     }
 
     public static Field[] getFields(Class<?> clazz) {
@@ -94,8 +92,10 @@ public class Utils {
         while (clazz != null) {
             Field[] declaredFields = clazz.getDeclaredFields();
             for (Field field : declaredFields) {
-                field.setAccessible(true);
-                fieldList.add(field);
+                // Do not increase accessibility
+                if (java.lang.reflect.Modifier.isPublic(field.getModifiers())) {
+                    fieldList.add(field);
+                }
             }
             clazz = clazz.getSuperclass();
         }

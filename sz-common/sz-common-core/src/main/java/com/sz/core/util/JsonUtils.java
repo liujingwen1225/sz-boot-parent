@@ -24,7 +24,7 @@ public class JsonUtils {
         throw new IllegalStateException("Utility class");
     }
 
-    private static final ObjectMapper OBJECT_MAPPER = SpringApplicationContextUtils.getBean(ObjectMapper.class);
+    private static final ObjectMapper OBJECT_MAPPER = SpringApplicationContextUtils.getInstance().getBean(ObjectMapper.class);
 
     /**
      * 读取指定路径的 JSON 文件并返回其内容。

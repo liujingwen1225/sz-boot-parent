@@ -23,7 +23,7 @@ public class GeneratorUtils {
 
     public static GeneratorTable initGeneratorTable(TableResult table) {
 
-        GeneratorProperties prop = SpringApplicationContextUtils.getBean(GeneratorProperties.class);
+        GeneratorProperties prop = SpringApplicationContextUtils.getInstance().getBean(GeneratorProperties.class);
         String author = prop.getGlobal().getAuthor();
         String packages = prop.getGlobal().getPackages();
 

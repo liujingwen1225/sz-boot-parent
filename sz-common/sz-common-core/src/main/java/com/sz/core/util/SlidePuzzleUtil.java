@@ -17,6 +17,10 @@ import java.util.Random;
 @Slf4j
 public class SlidePuzzleUtil {
 
+    private SlidePuzzleUtil() {
+        throw new IllegalStateException("Utility class");
+    }
+
     private static final Random RANDOM = new Random();
 
     private static final Integer bigWidth = 320;

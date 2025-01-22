@@ -16,7 +16,6 @@ public class SocketResult<T> extends SocketBean<T> {
     @Schema(description = "状态码。200代表成功；非200失败")
     protected int status = 200;
 
-
     public static <T> SocketResult<T> success() {
         SocketResult<T> socketResult = new SocketResult<>();
         socketResult.data = null;

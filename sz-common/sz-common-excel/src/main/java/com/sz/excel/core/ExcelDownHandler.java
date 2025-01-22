@@ -114,7 +114,7 @@ public class ExcelDownHandler implements SheetWriteHandler {
 
     private List<String> getDictTypeOptions(String dictType) {
         List<String> options = new ArrayList<>();
-        final DictService dictService = SpringApplicationContextUtils.getBean(DictService.class);
+        final DictService dictService = SpringApplicationContextUtils.getInstance().getBean(DictService.class);
         final Map<String, String> allDictByDictType = dictService.getAllDictByType(dictType);
         if (allDictByDictType != null && !allDictByDictType.isEmpty()) {
             options.addAll(allDictByDictType.keySet());

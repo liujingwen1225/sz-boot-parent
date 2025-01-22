@@ -13,10 +13,6 @@ import java.util.List;
 @Data
 public class TransferMessage<T> {
 
-    {
-        toPushAll = false;
-    }
-
     @Schema(description = "消息体bean")
     private SocketBean<T> message;
 
@@ -27,6 +23,6 @@ public class TransferMessage<T> {
     private String fromUser;
 
     @Schema(description = "是否通知全部用户")
-    private boolean toPushAll;
+    private boolean toPushAll = false;
 
 }

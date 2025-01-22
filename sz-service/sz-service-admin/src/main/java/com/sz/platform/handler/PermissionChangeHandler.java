@@ -13,6 +13,6 @@ public class PermissionChangeHandler implements UserPermissionChangeMsgHandler {
     @Override
     public void handlerMsg(UserPermissionChangeMessage message) {
         log.info(" [signal] message  = {}", JsonUtils.toJsonString(message));
-        // do something... 同步更新变更用户的权限信息
+        // [do something ...] 同步更新变更用户的权限信息
     }
 }

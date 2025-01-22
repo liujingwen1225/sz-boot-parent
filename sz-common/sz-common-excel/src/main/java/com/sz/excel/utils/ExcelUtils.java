@@ -52,7 +52,7 @@ public class ExcelUtils {
     public static <T> ExcelResult<T> importExcel(InputStream is, Class<T> clazz, boolean validateHeader) {
         // 在这里获取字典传递给cover，减轻redis压力
         Map<String, List<DictVO>> dictmap = getDictList();
-        ExcelListenerFactory listenerFactory = SpringApplicationContextUtils.getBean(ExcelListenerFactory.class);
+        ExcelListenerFactory listenerFactory = SpringApplicationContextUtils.getInstance().getBean(ExcelListenerFactory.class);
         DefaultExcelListener<T> listener = listenerFactory.createListener(validateHeader, clazz);
         FastExcelFactory.read(is, clazz, listener).registerConverter(new CustomStringStringConvert(dictmap))
                 .registerConverter(new CustomIntegerStringConvert(dictmap)).registerConverter(new CustomLongStringConvert(dictmap)).sheet().doRead();
@@ -162,7 +162,7 @@ public class ExcelUtils {
     }
 
     private static Map<String, List<DictVO>> getDictList() {
-        DictService dictService = SpringApplicationContextUtils.getBean(DictService.class);
+        DictService dictService = SpringApplicationContextUtils.getInstance().getBean(DictService.class);
         return dictService.getAllDict();
     }
 

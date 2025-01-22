@@ -24,7 +24,7 @@ public class LoginUser {
     private List<Long> deptAndChildren;
 
     @Schema(description = "权限标识与菜单关系数组")
-    private Map<String, String> permissionAndMenuIds = new HashMap<>();;
+    private Map<String, String> permissionAndMenuIds = new HashMap<>();
 
     @Schema(description = "菜单的查询规则")
     private Map<String, String> ruleMap = new HashMap<>();

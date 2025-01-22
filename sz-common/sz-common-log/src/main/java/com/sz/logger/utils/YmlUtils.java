@@ -8,9 +8,13 @@ import java.io.InputStream;
 import java.util.*;
 
 /**
- * This class will be deprecated in future versions.
+ * ！！！ 后续此类警徽被移除，将不会做太多优化。 This class will be deprecated in future versions.
  */
 public class YmlUtils {
+
+    private YmlUtils() {
+        throw new IllegalStateException("Utility class");
+    }
 
     /** 默认脱敏配置文件名 - 默认在resources目录下 */
     public static String PROPERTY_NAME = "logback-desensitize.yml";

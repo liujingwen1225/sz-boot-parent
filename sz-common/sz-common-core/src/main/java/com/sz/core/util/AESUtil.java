@@ -7,7 +7,6 @@ import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.*;
 import java.util.Base64;
-import java.util.Random;
 
 public class AESUtil {
 
@@ -15,7 +14,7 @@ public class AESUtil {
         throw new IllegalStateException("Utility class");
     }
 
-    private static final Random RANDOM = new Random();
+    private static final SecureRandom RANDOM = new SecureRandom();
 
     private static final String ALGORITHM = "AES/GCM/NoPadding";
 

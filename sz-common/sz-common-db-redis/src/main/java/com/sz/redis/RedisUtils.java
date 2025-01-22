@@ -18,7 +18,7 @@ public class RedisUtils {
         throw new IllegalStateException("Utility class");
     }
 
-    private static final RedisTemplate<Object, Object> TEMPLATE = SpringApplicationContextUtils.getBean(RedisTemplateClient.class).getTemplate();
+    private static final RedisTemplate<Object, Object> TEMPLATE = SpringApplicationContextUtils.getInstance().getBean(RedisTemplateClient.class).getTemplate();
 
     public static String getKey(String constant, String... value) {
         return StringUtils.getRealKey(constant, value);

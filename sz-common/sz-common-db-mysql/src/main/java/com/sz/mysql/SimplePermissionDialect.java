@@ -115,7 +115,7 @@ public class SimplePermissionDialect extends CommonsDialectImpl {
 
     private void handleRule(QueryWrapper queryWrapper, OperateType operateType, String rule, String alias, Class<?> tableClazz) {
         LoginUser loginUser = LoginUtils.getLoginUser();
-        String logicMinUnit = SpringApplicationContextUtils.getBean(DataScopeProperties.class).getLogicMinUnit();
+        String logicMinUnit = SpringApplicationContextUtils.getInstance().getBean(DataScopeProperties.class).getLogicMinUnit();
         switch (rule) {
             case "1006001" :
                 super.prepareAuth(queryWrapper, operateType);

@@ -14,6 +14,10 @@ import java.util.List;
  */
 public class TreeUtils {
 
+    private TreeUtils() {
+        throw new IllegalStateException("Utility class");
+    }
+
     /**
      * 构建树形结构。
      *
