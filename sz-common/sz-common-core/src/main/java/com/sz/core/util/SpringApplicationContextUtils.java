@@ -27,8 +27,6 @@ import java.util.function.Function;
 @Component
 public class SpringApplicationContextUtils implements BeanFactoryPostProcessor, ApplicationContextAware {
 
-    private static SpringApplicationContextUtils instance;
-
     private ConfigurableListableBeanFactory beanFactory;
 
     private ApplicationContext applicationContext;
@@ -39,15 +37,12 @@ public class SpringApplicationContextUtils implements BeanFactoryPostProcessor, 
         // 私有构造函数防止实例化
     }
 
+    private static class Holder {
+        private static final SpringApplicationContextUtils INSTANCE = new SpringApplicationContextUtils();
+    }
+
     public static SpringApplicationContextUtils getInstance() {
-        if (instance == null) {
-            synchronized (SpringApplicationContextUtils.class) {
-                if (instance == null) {
-                    instance = new SpringApplicationContextUtils();
-                }
-            }
-        }
-        return instance;
+        return Holder.INSTANCE;
     }
 
     @Override
