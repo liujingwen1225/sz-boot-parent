@@ -38,6 +38,7 @@ public class SpringApplicationContextUtils implements BeanFactoryPostProcessor, 
     }
 
     private static class Holder {
+
         private static final SpringApplicationContextUtils INSTANCE = new SpringApplicationContextUtils();
     }
 

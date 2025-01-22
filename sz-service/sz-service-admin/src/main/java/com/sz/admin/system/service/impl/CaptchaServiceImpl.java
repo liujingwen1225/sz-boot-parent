@@ -24,14 +24,14 @@ import javax.crypto.NoSuchPaddingException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.util.Random;
+import java.security.SecureRandom;
 
 /**
  * CaptchaServiceImpl
  *
  * @author sz
- * @since 2025/1/8 17:01
  * @version 1.0
+ * @since 2025/1/8 17:01
  */
 @Service
 @RequiredArgsConstructor
@@ -39,7 +39,7 @@ public class CaptchaServiceImpl implements CaptchaService {
 
     private final RedisCache redisCache;
 
-    private final Random random = new Random();
+    private final SecureRandom random = new SecureRandom();
 
     @SneakyThrows
     @Override
@@ -85,7 +85,7 @@ public class CaptchaServiceImpl implements CaptchaService {
         String str = AESUtil.aesDecrypt(checkPuzzle.getMoveEncrypted(), pointVO.getSecretKey(), checkPuzzle.getIv()); // 解密，获取x位移距离
         int posX = 0;
         if (Utils.isNotNull(str)) { // 我在使用 sonar检测代码， 这行报错 Avoid using boxed "Boolean" types directly in boolean
-                                    // expressions，我应该如何解决他
+            // expressions，我应该如何解决他
             double posXDouble = Double.parseDouble(str); // 将解密结果转换为double类型
             posX = (int) Math.round(posXDouble); // 四舍五入取整
         }

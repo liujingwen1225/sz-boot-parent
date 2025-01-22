@@ -11,8 +11,8 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.SecureRandom;
 import java.util.Base64;
-import java.util.Random;
 
 @Slf4j
 public class SlidePuzzleUtil {
@@ -21,7 +21,7 @@ public class SlidePuzzleUtil {
         throw new IllegalStateException("Utility class");
     }
 
-    private static final Random RANDOM = new Random();
+    private static final SecureRandom RANDOM = new SecureRandom();
 
     private static final Integer bigWidth = 320;
 
