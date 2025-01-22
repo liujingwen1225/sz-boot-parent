@@ -8,7 +8,6 @@ import cn.idev.excel.metadata.data.WriteCellData;
 import cn.idev.excel.metadata.property.ExcelContentProperty;
 import com.sz.core.common.entity.DictVO;
 import com.sz.core.util.StreamUtils;
-import com.sz.core.util.StringUtils;
 import com.sz.core.util.Utils;
 import com.sz.excel.annotation.DictFormat;
 import com.sz.excel.utils.ExcelUtils;
@@ -16,6 +15,9 @@ import com.sz.excel.utils.ExcelUtils;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
+
+import static org.apache.commons.lang3.StringUtils.isBlank;
+import static org.apache.commons.lang3.StringUtils.isNoneBlank;
 
 public abstract class AbstractExcelDictConvert<T> implements Converter<T> {
 
@@ -27,7 +29,7 @@ public abstract class AbstractExcelDictConvert<T> implements Converter<T> {
 
     protected String getLabelFromDict(String dictType, String dictValue, DictFormat anno) {
         // 处理特殊情况，dictType为空且readConverterExp非空时直接返回转换结果
-        if (StringUtils.isBlank(dictType) && StringUtils.isNoneBlank(anno.readConverterExp())) {
+        if (isBlank(dictType) && isNoneBlank(anno.readConverterExp())) {
             return ExcelUtils.convertByExp(dictValue, anno.readConverterExp(), anno.separator());
         }
 
@@ -48,7 +50,7 @@ public abstract class AbstractExcelDictConvert<T> implements Converter<T> {
     protected T getValueFromExcelData(ReadCellData<?> cellData, DictFormat anno, String dictType) {
         String dictLabel = cellData.getStringValue();
         String value;
-        if (StringUtils.isBlank(dictType) && StringUtils.isNoneBlank(anno.readConverterExp())) {
+        if (isBlank(dictType) && isNoneBlank(anno.readConverterExp())) {
             value = ExcelUtils.reverseByExp(dictLabel, anno.readConverterExp(), anno.separator());
         } else {
             List<DictVO> dictLists = dictmap.get(dictType);

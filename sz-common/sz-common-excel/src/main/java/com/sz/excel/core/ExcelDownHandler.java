@@ -24,6 +24,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
+
 /**
  * excel下拉项
  *
@@ -92,9 +94,9 @@ public class ExcelDownHandler implements SheetWriteHandler {
 
         if (classes.length > 0) {
             options = getDynamicSelectOptions(classes);
-        } else if (StringUtils.isNotBlank(dictType)) {
+        } else if (isNotBlank(dictType)) {
             options = getDictTypeOptions(dictType);
-        } else if (StringUtils.isNotBlank(converterExp)) {
+        } else if (isNotBlank(converterExp)) {
             options = ExcelUtils.listByExp(converterExp, separator);
         }
 

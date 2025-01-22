@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
+
 /**
  * Spring 工具类：用于在非 Spring 管理的环境中获取 Bean，方便在非 Spring IoC 中使用。 提供获取 Bean、注册
  * Bean、环境配置等实用功能。
@@ -92,7 +94,7 @@ public class SpringApplicationContextUtils implements BeanFactoryPostProcessor, 
         BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder.genericBeanDefinition(clazz);
         AbstractBeanDefinition beanDefinition = function.apply(beanDefinitionBuilder);
         BeanDefinitionRegistry beanFactory = (BeanDefinitionRegistry) this.beanFactory;
-        if (StringUtils.isNotBlank(beanName) && !containsBean(beanName)) {
+        if (isNotBlank(beanName) && !containsBean(beanName)) {
             beanFactory.registerBeanDefinition(beanName, beanDefinition);
             return getBean(beanName);
         } else {

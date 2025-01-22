@@ -11,6 +11,8 @@ import com.sz.generator.pojo.result.TableResult;
 import com.sz.core.util.StringUtils;
 import java.util.Arrays;
 
+import static org.apache.commons.lang3.StringUtils.*;
+
 /**
  * @author sz
  * @since 2023/11/28 16:06
@@ -106,8 +108,8 @@ public class GeneratorUtils {
      * @return 截取后的列类型
      */
     public static String getDbType(String columnType) {
-        if (StringUtils.indexOf(columnType, "(") > 0) {
-            return StringUtils.substringBefore(columnType, "(");
+        if (indexOf(columnType, "(") > 0) {
+            return substringBefore(columnType, "(");
         } else {
             return columnType;
         }
@@ -121,8 +123,8 @@ public class GeneratorUtils {
      * @return 截取后的列类型
      */
     public static Integer getColumnLength(String columnType) {
-        if (StringUtils.indexOf(columnType, "(") > 0) {
-            String length = StringUtils.substringBetween(columnType, "(", ")");
+        if (indexOf(columnType, "(") > 0) {
+            String length = substringBetween(columnType, "(", ")");
             return Integer.valueOf(length);
         } else {
             return 0;
@@ -239,7 +241,7 @@ public class GeneratorUtils {
     }
 
     private static void setNumberTypeAttributes(String columnType, GeneratorTableColumn tableColumn) {
-        String[] str = StringUtils.split(StringUtils.substringBetween(columnType, "(", ")"), ",");
+        String[] str = split(substringBetween(columnType, "(", ")"), ",");
         if (str != null && str.length == 2 && Integer.parseInt(str[1]) > 0) {
             tableColumn.setJavaType(GeneratorConstants.TYPE_BIGDECIMAL);
             tableColumn.setJavaTypePackage("java.math.BigDecimal");
@@ -265,7 +267,7 @@ public class GeneratorUtils {
     }
 
     private static void setQueryType(String columnName, GeneratorTableColumn tableColumn) {
-        if (StringUtils.endsWithIgnoreCase(columnName, "name")) {
+        if (endsWithIgnoreCase(columnName, "name")) {
             tableColumn.setQueryType(GeneratorConstants.QUERY_LIKE);
         }
     }

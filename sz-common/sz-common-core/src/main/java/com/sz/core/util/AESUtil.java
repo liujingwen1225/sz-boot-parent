@@ -8,6 +8,8 @@ import java.nio.charset.StandardCharsets;
 import java.security.*;
 import java.util.Base64;
 
+import static org.apache.commons.lang3.StringUtils.isBlank;
+
 public class AESUtil {
 
     private AESUtil() {
@@ -97,7 +99,7 @@ public class AESUtil {
      */
     public static String aesEncrypt(String content, String encryptKey, String iv) throws InvalidAlgorithmParameterException, NoSuchPaddingException,
             IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
-        if (StringUtils.isBlank(encryptKey)) {
+        if (isBlank(encryptKey)) {
             return content;
         }
         return base64Encode(aesEncryptToBytes(content, encryptKey, iv));
@@ -146,7 +148,7 @@ public class AESUtil {
      */
     public static String aesDecrypt(String encryptStr, String decryptKey, String iv) throws InvalidAlgorithmParameterException, NoSuchPaddingException,
             IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
-        if (StringUtils.isBlank(decryptKey)) {
+        if (isBlank(decryptKey)) {
             return encryptStr;
         }
         return StringUtils.isEmpty(encryptStr) ? null : aesDecryptByBytes(base64Decode(encryptStr), decryptKey, iv);

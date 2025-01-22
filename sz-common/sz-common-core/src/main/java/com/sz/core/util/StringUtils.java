@@ -6,11 +6,14 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static org.apache.commons.lang3.StringUtils.containsIgnoreCase;
+import static org.apache.commons.lang3.StringUtils.isBlank;
+
 /**
  * @author sz
  * @since 2021/9/7 8:02
  */
-public class StringUtils extends org.apache.commons.lang3.StringUtils {
+public class StringUtils {
 
     /**
      * 空字符串
@@ -387,12 +390,12 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
         }
 
         // 过滤空白字符串
-        if (filterBlank && StringUtils.isBlank(str)) {
+        if (filterBlank && isBlank(str)) {
             return list;
         }
         String[] split = str.split(sep);
         for (String string : split) {
-            if (filterBlank && StringUtils.isBlank(string)) {
+            if (filterBlank && isBlank(string)) {
                 continue;
             }
             if (trim) {
@@ -436,7 +439,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
      * @return 是否包含任意一个字符串
      */
     public static boolean containsAnyIgnoreCase(CharSequence cs, CharSequence... searchCharSequences) {
-        if (isEmpty(cs) || isEmpty(searchCharSequences)) {
+        if (isEmpty((Collection<?>) cs) || isEmpty(searchCharSequences)) {
             return false;
         }
         for (CharSequence testStr : searchCharSequences) {
