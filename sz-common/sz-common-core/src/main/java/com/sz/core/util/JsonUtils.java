@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static com.github.xiaoymin.knife4j.core.util.StrUtil.isBlank;
+
 /**
  * @author sz
  * @since 2022/10/8 18:59
@@ -145,7 +147,7 @@ public class JsonUtils {
      * @return 解析后的对象，如果解析失败返回 null
      */
     public static <T> T parseObject(String text, TypeReference<T> typeReference) {
-        if (StringUtils.isBlank(text)) {
+        if (isBlank(text)) {
             return null;
         }
         try {
