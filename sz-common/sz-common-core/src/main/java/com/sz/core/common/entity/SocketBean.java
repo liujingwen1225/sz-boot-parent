@@ -12,19 +12,13 @@ import lombok.Data;
 @Data
 public class SocketBean<T> {
 
-    {
-        data = null;
-        channel = SocketChannelEnum.DEFAULTS;
-        scope = MessageTransferScopeEnum.SOCKET_CLIENT;
-    }
-
     @Schema(description = "data")
     protected T data;
 
     @Schema(description = "通道类型")
-    protected SocketChannelEnum channel;
+    protected SocketChannelEnum channel = SocketChannelEnum.DEFAULTS;
 
     @Schema(description = "消息通知作用域")
-    protected MessageTransferScopeEnum scope;
+    protected MessageTransferScopeEnum scope = MessageTransferScopeEnum.SOCKET_CLIENT;
 
 }
