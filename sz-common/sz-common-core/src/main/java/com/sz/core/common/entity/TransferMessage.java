@@ -14,7 +14,7 @@ import java.util.List;
 public class TransferMessage<T> {
 
     @Schema(description = "消息体bean")
-    private SocketBean<T> message;
+    private SocketMessage<T> message;
 
     @Schema(description = "消息接收人")
     private List<String> toUsers = new ArrayList<>();

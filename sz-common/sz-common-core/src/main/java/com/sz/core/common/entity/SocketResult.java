@@ -11,7 +11,7 @@ import lombok.Data;
  */
 @JsonInclude(JsonInclude.Include.USE_DEFAULTS)
 @Data
-public class SocketResult<T> extends SocketBean<T> {
+public class SocketResult<T> extends SocketMessage<T> {
 
     @Schema(description = "状态码。200代表成功；非200失败")
     protected int status = 200;

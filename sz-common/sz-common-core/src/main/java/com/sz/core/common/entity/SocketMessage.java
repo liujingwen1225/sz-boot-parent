@@ -10,7 +10,7 @@ import lombok.Data;
  * @since 2023/9/6 17:20
  */
 @Data
-public class SocketBean<T> {
+public class SocketMessage<T> {
 
     @Schema(description = "data")
     protected T data;
