@@ -103,6 +103,16 @@ public class GeneratorConstants {
     public static final String HTML_EDITOR = "editor";
 
     /**
+     * 日期范围控件
+     */
+    public static final String HTML_DATE_PICKER = "date-picker";
+
+    /**
+     * 时间范围控件
+     */
+    public static final String HTML_TIME_PICKER ="time-picker";
+
+    /**
      * 字符串类型
      */
     public static final String TYPE_STRING = "String";

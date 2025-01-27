@@ -196,14 +196,14 @@ public class GeneratorUtils {
                 tableColumn.setJavaType(GeneratorConstants.TYPE_LOCALTIME);
                 tableColumn.setHtmlType(GeneratorConstants.HTML_TIME);
                 tableColumn.setJavaTypePackage("java.time.LocalTime");
-                tableColumn.setSearchType("time-picker");
+                tableColumn.setSearchType(GeneratorConstants.HTML_TIME_PICKER);
                 tableColumn.setQueryType(GeneratorConstants.QUERY_BETWEEN);
                 break;
             case "DATE" :
                 tableColumn.setJavaType(GeneratorConstants.TYPE_LOCALDATE);
                 tableColumn.setHtmlType(GeneratorConstants.HTML_DATE);
                 tableColumn.setJavaTypePackage("java.time.LocalDate");
-                tableColumn.setSearchType("date-picker");
+                tableColumn.setSearchType(GeneratorConstants.HTML_DATE_PICKER);
                 tableColumn.setQueryType(GeneratorConstants.QUERY_BETWEEN);
                 break;
             case "TIMESTAMP" :
@@ -211,7 +211,7 @@ public class GeneratorUtils {
                 tableColumn.setJavaType(GeneratorConstants.TYPE_LOCALDATETIME);
                 tableColumn.setHtmlType(GeneratorConstants.HTML_DATETIME);
                 tableColumn.setJavaTypePackage("java.time.LocalDateTime");
-                tableColumn.setSearchType("date-picker");
+                tableColumn.setSearchType(GeneratorConstants.HTML_DATE_PICKER);
                 tableColumn.setQueryType(GeneratorConstants.QUERY_BETWEEN);
                 break;
             case "TINYINT" :
@@ -227,7 +227,6 @@ public class GeneratorUtils {
             case "DECIMAL" :
                 tableColumn.setTsType(GeneratorConstants.TS_TYPE_NUMBER);
                 setNumberTypeAttributes(columnType, tableColumn);
-                // tableColumn.setSearchType("input-number");
                 break;
             default :
                 // Handle other data types as needed

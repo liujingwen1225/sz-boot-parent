@@ -153,14 +153,11 @@ public class HttpReqResUtil {
      */
     public static Map<String, Object> getParameter(ServletRequest request) {
         Map<String, Object> paramMap = new HashMap<>();
-        Enumeration<String> a = request.getParameterNames();
-        String param, val;
-        while (a.hasMoreElements()) {
-            // 参数名
-            param = a.nextElement();
-            // 值
-            val = request.getParameter(param);
-            paramMap.put(param, val);
+        Enumeration<String> parameterNames = request.getParameterNames();
+        while (parameterNames.hasMoreElements()) {
+            String paramName = parameterNames.nextElement();
+            String paramValue = request.getParameter(paramName);
+            paramMap.put(paramName, paramValue);
         }
         return paramMap;
     }
