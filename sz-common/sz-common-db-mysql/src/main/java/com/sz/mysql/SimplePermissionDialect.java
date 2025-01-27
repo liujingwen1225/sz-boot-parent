@@ -30,6 +30,9 @@ public class SimplePermissionDialect extends CommonsDialectImpl {
 
     private static final String FIELD_DEPT_SCOPE = "dept_scope";
 
+    // 定义一个分隔符常量
+    private static final String SEPARATOR_STR = "$";
+
     @Override
     public void prepareAuth(QueryWrapper queryWrapper, OperateType operateType) {
         if (!SimpleDataScopeHelper.isDataScope() || !StpUtil.isLogin()) {
@@ -64,7 +67,6 @@ public class SimplePermissionDialect extends CommonsDialectImpl {
     }
 
     private boolean initializeContext(QueryWrapper queryWrapper, OperateType operateType) {
-        Class<?> tableClazz = SimpleDataScopeHelper.get();
         List<QueryTable> queryTables = CPI.getQueryTables(queryWrapper);
         List<QueryTable> joinTables = CPI.getJoinTables(queryWrapper);
 
@@ -87,11 +89,7 @@ public class SimplePermissionDialect extends CommonsDialectImpl {
 
         boolean isJoin = CPI.getJoins(queryWrapper) != null && !CPI.getJoins(queryWrapper).isEmpty();
         Map<String, QueryTable> tableMap = buildTableMap(queryTables, isJoin, joinTables);
-        if (tableMap == null) {
-            return false;
-        }
-
-        return true;
+        return tableMap != null && !tableMap.isEmpty();
     }
 
     private String determineRuleScope(ControlPermissions permissions, LoginUser loginUser) {
@@ -177,7 +175,7 @@ public class SimplePermissionDialect extends CommonsDialectImpl {
         Map<String, QueryTable> tableMap = new HashMap<>();
         for (QueryTable queryTable : queryTables) {
             if (queryTable.getName() == null || queryTable.getName().trim().isEmpty()) {
-                return null;
+                return Collections.emptyMap();
             }
             tableMap.put(queryTable.getName(), queryTable);
         }
@@ -284,10 +282,12 @@ public class SimplePermissionDialect extends CommonsDialectImpl {
             boolean isFirst = true;
             for (Long dept : depts) {
                 if (!isFirst) {
-                    append.append(" OR JSON_CONTAINS(").append(alias).append(".").append(field).append(", '").append(dept).append("', '$')");
+                    append.append(" OR JSON_CONTAINS(").append(alias).append(".").append(field).append(", '").append(dept).append("', '").append(SEPARATOR_STR)
+                            .append("')");
                 } else {
                     isFirst = false;
-                    append.append("JSON_CONTAINS(").append(alias).append(".").append(field).append(", '").append(dept).append("', '$')");
+                    append.append("JSON_CONTAINS(").append(alias).append(".").append(field).append(", '").append(dept).append("', '").append(SEPARATOR_STR)
+                            .append("')");
                 }
             }
             queryWrapper.and(append.toString());

@@ -200,7 +200,7 @@ public class GeneratorUtils {
                 tableColumn.setQueryType(GeneratorConstants.QUERY_BETWEEN);
                 break;
             case "DATE" :
-                tableColumn.setJavaType(GeneratorConstants.TYPE_LOCALDATE);
+                tableColumn.setJavaType(GeneratorConstants.TYPE_LOCAL_DATE);
                 tableColumn.setHtmlType(GeneratorConstants.HTML_DATE);
                 tableColumn.setJavaTypePackage("java.time.LocalDate");
                 tableColumn.setSearchType(GeneratorConstants.HTML_DATE_PICKER);
@@ -208,7 +208,7 @@ public class GeneratorUtils {
                 break;
             case "TIMESTAMP" :
             case "DATETIME" :
-                tableColumn.setJavaType(GeneratorConstants.TYPE_LOCALDATETIME);
+                tableColumn.setJavaType(GeneratorConstants.TYPE_LOCAL_DATETIME);
                 tableColumn.setHtmlType(GeneratorConstants.HTML_DATETIME);
                 tableColumn.setJavaTypePackage("java.time.LocalDateTime");
                 tableColumn.setSearchType(GeneratorConstants.HTML_DATE_PICKER);
@@ -242,7 +242,7 @@ public class GeneratorUtils {
     private static void setNumberTypeAttributes(String columnType, GeneratorTableColumn tableColumn) {
         String[] str = split(substringBetween(columnType, "(", ")"), ",");
         if (str != null && str.length == 2 && Integer.parseInt(str[1]) > 0) {
-            tableColumn.setJavaType(GeneratorConstants.TYPE_BIGDECIMAL);
+            tableColumn.setJavaType(GeneratorConstants.TYPE_BIG_DECIMAL);
             tableColumn.setJavaTypePackage("java.math.BigDecimal");
         } else if (str != null && str.length == 1 && Integer.parseInt(str[0]) <= 10) {
             tableColumn.setJavaType(GeneratorConstants.TYPE_INTEGER);
@@ -292,7 +292,7 @@ public class GeneratorUtils {
     }
 
     private static void setListAttribute(boolean notPk, String columnName, GeneratorTableColumn tableColumn) {
-        if (!arraysContains(GeneratorConstants.COLUMNNAME_NOT_LIST, columnName) && notPk) {
+        if (!arraysContains(GeneratorConstants.NON_DISPLAYABLE_COLUMNS, columnName) && notPk) {
             tableColumn.setIsList(GeneratorConstants.REQUIRE);
         }
         if (!notPk) {
@@ -301,19 +301,19 @@ public class GeneratorUtils {
     }
 
     private static void setImportAttribute(boolean notPk, String columnName, GeneratorTableColumn tableColumn) {
-        if (!arraysContains(GeneratorConstants.COLUMNNAME_NOT_LIST, columnName) && notPk) {
+        if (!arraysContains(GeneratorConstants.NON_DISPLAYABLE_COLUMNS, columnName) && notPk) {
             tableColumn.setIsImport(GeneratorConstants.REQUIRE);
         }
     }
 
     private static void setExportAttribute(boolean notPk, String columnName, GeneratorTableColumn tableColumn) {
-        if (!arraysContains(GeneratorConstants.COLUMNNAME_NOT_LIST, columnName) && notPk) {
+        if (!arraysContains(GeneratorConstants.NON_DISPLAYABLE_COLUMNS, columnName) && notPk) {
             tableColumn.setIsExport(GeneratorConstants.REQUIRE);
         }
     }
 
     private static void setQueryAttribute(boolean notPk, String columnName, GeneratorTableColumn tableColumn) {
-        if (!arraysContains(GeneratorConstants.COLUMNNAME_NOT_QUERY, columnName) && notPk) {
+        if (!arraysContains(GeneratorConstants.NON_QUERYABLE_COLUMNS, columnName) && notPk) {
             tableColumn.setIsQuery(GeneratorConstants.REQUIRE);
         }
     }
@@ -323,7 +323,7 @@ public class GeneratorUtils {
     }
 
     private static void setEditAttribute(boolean notPk, String columnName, GeneratorTableColumn tableColumn) {
-        if (!arraysContains(GeneratorConstants.COLUMNNAME_NOT_EDIT, columnName) && notPk) {
+        if (!arraysContains(GeneratorConstants.NON_EDITABLE_COLUMNS, columnName) && notPk) {
             tableColumn.setIsEdit(GeneratorConstants.REQUIRE);
         }
         if (!notPk) {
@@ -332,17 +332,17 @@ public class GeneratorUtils {
     }
 
     private static void setInsertAttribute(boolean notPk, String columnName, GeneratorTableColumn tableColumn) {
-        if (!arraysContains(GeneratorConstants.COLUMNNAME_NOT_INSERT, columnName) && notPk) {
+        if (!arraysContains(GeneratorConstants.NON_INSERTABLE_COLUMNS, columnName) && notPk) {
             tableColumn.setIsInsert(GeneratorConstants.REQUIRE);
         }
     }
 
     private static void setAutofillType(String columnName, GeneratorTableColumn tableColumn) {
-        if (arraysContains(GeneratorConstants.COLUMNNAME_AUTOFILL_INSERT, columnName)) {
+        if (arraysContains(GeneratorConstants.AUTO_FILL_ON_INSERT_COLUMNS, columnName)) {
             tableColumn.setIsAutofill(GeneratorConstants.REQUIRE);
             tableColumn.setAutofillType("FieldFill.INSERT");
         }
-        if (arraysContains(GeneratorConstants.COLUMNNAME_AUTOFILL_UPDATE, columnName)) {
+        if (arraysContains(GeneratorConstants.AUTO_FILL_ON_UPDATE_COLUMNS, columnName)) {
             tableColumn.setIsAutofill(GeneratorConstants.REQUIRE);
             tableColumn.setAutofillType("FieldFill.UPDATE");
         }

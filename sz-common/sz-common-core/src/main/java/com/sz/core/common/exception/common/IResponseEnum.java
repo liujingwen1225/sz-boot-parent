@@ -2,7 +2,7 @@ package com.sz.core.common.exception.common;
 
 import com.sz.core.common.enums.ErrorPrefixEnum;
 
-public interface IResponseEnum  {
+public interface IResponseEnum {
 
     /**
      * 获取错误码

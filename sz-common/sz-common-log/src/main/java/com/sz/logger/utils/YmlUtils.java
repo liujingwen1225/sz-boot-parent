@@ -17,7 +17,7 @@ public class YmlUtils {
     }
 
     /** 默认脱敏配置文件名 - 默认在resources目录下 */
-    public static String PROPERTY_NAME = "logback-desensitize.yml";
+    public static final String PROPERTY_NAME = "logback-desensitize.yml";
 
     /** Key：pattern - 单规则 */
     public static final String PATTERN = "pattern";
@@ -38,7 +38,7 @@ public class YmlUtils {
     public static final String CUSTOM = "custom";
 
     /** Yml脱敏配置文件内容 - Map格式 */
-    public static Map<String, Object> patternMap;
+    protected static final Map<String, Object> patternMap;
 
     public static final DumperOptions OPTIONS = new DumperOptions();
 

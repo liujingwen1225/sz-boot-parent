@@ -48,8 +48,7 @@ public class SaTokenConfig extends WebMvcConfiguration {
         // 注册自定义 @SaCheckPermission 注解Handler;
         SaAnnotationStrategy.instance.registerAnnotationHandler(new MySaCheckPermissionHandler());
         // 注册 自定义 MySaInterceptor 拦截器
-        registry.addInterceptor(new MySaInterceptor(handler -> {
-            SaRouter.match("/**", r -> StpUtil.checkLogin()); // 这里可以结合自己业务改造
-        })).addPathPatterns("/**").excludePathPatterns(new ArrayList<>(whitelistProperties.getWhitelist()));
+        registry.addInterceptor(new MySaInterceptor(handler -> SaRouter.match("/**", r -> StpUtil.checkLogin()) // 这里可以结合自己业务改造
+        )).addPathPatterns("/**").excludePathPatterns(new ArrayList<>(whitelistProperties.getWhitelist()));
     }
 }

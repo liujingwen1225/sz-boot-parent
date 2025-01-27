@@ -21,7 +21,7 @@ public class LoginUser {
     private List<Long> depts = new ArrayList<>();
 
     @Schema(description = "所属部门及其子孙节点部门")
-    private List<Long> deptAndChildren;
+    private List<Long> deptAndChildren = new ArrayList<>();
 
     @Schema(description = "权限标识与菜单关系数组")
     private Map<String, String> permissionAndMenuIds = new HashMap<>();
