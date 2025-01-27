@@ -52,15 +52,18 @@ public class WebSocketServer extends TextWebSocketHandler {
         }
 
         String sid = session.getId();
-        SocketMessage socketMessage = SocketUtil.formatSocketMessage(message.getPayload());
-        SocketChannelEnum channel = socketMessage.getChannel();
-        // TODO channel 处理
+        // SocketMessage<?> socketMessage =
+        // SocketUtil.formatSocketMessage(message.getPayload());
+        SocketMessage msg = JsonUtils.parseObject(message.getPayload(), SocketMessage.class);
+        assert msg != null;
+        SocketChannelEnum channel = msg.getChannel();
         switch (channel) {
             default :
                 log.warn(" 【websocket】 unknown message: {}, send to service ... ", message);
-                SocketMessage sb = JsonUtils.parseObject(message.getPayload(), SocketMessage.class);
-                TransferMessage tm = new TransferMessage();
-                tm.setMessage(sb);
+                // SocketMessage sb = JsonUtils.parseObject(message.getPayload(),
+                // SocketMessage.class);
+                TransferMessage<?> tm = new TransferMessage<>();
+                tm.setMessage(msg);
                 String channelUsername = websocketRedisService.getUserBySessionId(sid);
                 if (channelUsername != null) {
                     tm.setFromUser(channelUsername);

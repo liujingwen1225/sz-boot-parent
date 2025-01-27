@@ -16,12 +16,12 @@ public class SocketUtil {
         return JsonUtils.parseObject(message, SocketResult.class);
     }
 
-    public static String transferMessage(SocketMessage bean) {
+    public static <T> String transferMessage(SocketMessage<T> bean) {
         return JsonUtils.toJsonString(bean);
     }
 
-    public static TransferMessage pubTransferMessage(SocketMessage sb, List<String> usernames) {
-        TransferMessage transferMessage = new TransferMessage();
+    public static <T> TransferMessage<T> pubTransferMessage(SocketMessage<T> sb, List<String> usernames) {
+        TransferMessage<T> transferMessage = new TransferMessage<>();
         transferMessage.setMessage(sb);
         transferMessage.setToUsers(usernames);
         return transferMessage;
