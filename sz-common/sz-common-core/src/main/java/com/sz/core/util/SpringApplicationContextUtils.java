@@ -93,12 +93,12 @@ public class SpringApplicationContextUtils implements BeanFactoryPostProcessor, 
     public <T> T registerBean(String beanName, Class<T> clazz, Function<BeanDefinitionBuilder, AbstractBeanDefinition> function) {
         BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder.genericBeanDefinition(clazz);
         AbstractBeanDefinition beanDefinition = function.apply(beanDefinitionBuilder);
-        BeanDefinitionRegistry beanFactory = (BeanDefinitionRegistry) this.beanFactory;
+        BeanDefinitionRegistry beanDefinitionRegistry = (BeanDefinitionRegistry) this.beanFactory;
         if (isNotBlank(beanName) && !containsBean(beanName)) {
-            beanFactory.registerBeanDefinition(beanName, beanDefinition);
+            beanDefinitionRegistry.registerBeanDefinition(beanName, beanDefinition);
             return getBean(beanName);
         } else {
-            String name = BeanDefinitionReaderUtils.registerWithGeneratedName(beanDefinition, beanFactory);
+            String name = BeanDefinitionReaderUtils.registerWithGeneratedName(beanDefinition, beanDefinitionRegistry);
             return getBean(name);
         }
     }

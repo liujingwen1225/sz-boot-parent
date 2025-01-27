@@ -15,6 +15,10 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
  */
 public class StringUtils {
 
+    private StringUtils() {
+        throw new IllegalStateException("Utility class");
+    }
+
     /**
      * 空字符串
      */
@@ -367,7 +371,7 @@ public class StringUtils {
      * @return set集合
      */
     public static Set<String> str2Set(String str, String sep) {
-        return new HashSet<String>(str2List(str, sep, true, false));
+        return new HashSet<>(str2List(str, sep, true, false));
     }
 
     /**
@@ -384,7 +388,7 @@ public class StringUtils {
      * @return list集合
      */
     public static List<String> str2List(String str, String sep, boolean filterBlank, boolean trim) {
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         if (StringUtils.isEmpty(str)) {
             return list;
         }
