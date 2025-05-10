@@ -1,5 +1,7 @@
 package com.sz.www.test.controller;
 
+import com.sz.admin.system.pojo.dto.sysmessage.Message;
+import com.sz.admin.system.service.SysMessageService;
 import com.sz.core.common.entity.ApiResult;
 import com.sz.core.common.entity.SocketMessage;
 import com.sz.core.common.entity.TransferMessage;
@@ -9,10 +11,11 @@ import com.sz.redis.WebsocketRedisService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,18 +32,21 @@ import java.util.List;
 @RestController
 @RequestMapping("www")
 @RequiredArgsConstructor
+@Profile({"dev", "local", "preview"})
 public class TestController {
 
     private final WebsocketRedisService websocketRedisService;
 
+    private final SysMessageService sysMessageService;
+
     @PostMapping("push/all")
     @Operation(summary = "全体推送-升级公告（socket）")
     public ApiResult<Void> sendUpgradeMsg() {
-        SocketMessage<String> bean = new SocketMessage<>();
+        SocketMessage bean = new SocketMessage();
         bean.setData("【全体推送】 系统即将进行升级，预计需要几分钟时间。请您稍等片刻，感谢您的耐心等待");
         bean.setChannel(SocketChannelEnum.UPGRADE_CHANNEL);
         bean.setScope(MessageTransferScopeEnum.SOCKET_CLIENT);
-        TransferMessage<String> msg = new TransferMessage<>();
+        TransferMessage msg = new TransferMessage();
         msg.setMessage(bean);
         msg.setFromUser("system");
         msg.setToPushAll(true);
@@ -51,12 +57,12 @@ public class TestController {
     @PostMapping("push/user")
     @Operation(summary = "定向推送-升级公告（socket）")
     public ApiResult<Void> sendMsg() {
-        SocketMessage<String> bean = new SocketMessage<>();
+        SocketMessage bean = new SocketMessage();
         bean.setData("【定向推送】 系统即将进行升级，预计需要几分钟时间。请您稍等片刻，感谢您的耐心等待");
         bean.setChannel(SocketChannelEnum.UPGRADE_CHANNEL);
         bean.setScope(MessageTransferScopeEnum.SOCKET_CLIENT);
 
-        TransferMessage<String> msg = new TransferMessage<>();
+        TransferMessage msg = new TransferMessage();
         msg.setMessage(bean);
         msg.setFromUser("system");
         msg.setToPushAll(false);
@@ -70,12 +76,19 @@ public class TestController {
     @Operation(summary = "测试socket踢下线")
     @PostMapping("kick")
     public ApiResult<Void> testKickOff() {
-        TransferMessage<Void> tm = new TransferMessage<>();
+        TransferMessage tm = new TransferMessage();
         tm.setToPushAll(true);
-        SocketMessage<Void> sb = new SocketMessage<>();
+        SocketMessage sb = new SocketMessage();
         sb.setChannel(SocketChannelEnum.KICK_OFF);
         tm.setMessage(sb);
         websocketRedisService.sendServiceToWs(tm);
+        return ApiResult.success();
+    }
+
+    @Operation(summary = "测试消息发送")
+    @PostMapping("message/send")
+    public ApiResult<Void> sendMessage(@RequestBody Message msg) {
+        sysMessageService.create(msg);
         return ApiResult.success();
     }
 

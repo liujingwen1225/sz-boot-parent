@@ -9,20 +9,25 @@ import java.util.stream.Collectors;
 
 /**
  * bean copy
- * 
+ *
  * @author sz
  * @since 2021/9/1 22:04
  */
 public class BeanCopyUtils {
 
-    private static final ModelMapper modelMapper = new ModelMapper();
+    private static final ModelMapper modelMapper;
+
+    static {
+        modelMapper = new ModelMapper();
+        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT); // 设置严格模式
+    }
 
     private BeanCopyUtils() {
         throw new IllegalStateException("BeanCopyUtils class Illegal");
     }
 
     /**
-     * 已弃用的方法，用于复制对象属性。
+     * ！！！将在下个版本移除！！！ 已弃用的方法，用于复制对象属性。
      * <p>
      * 此方法使用 Spring 的 `BeanUtils.copyProperties` 来复制源对象的属性到目标对象。 建议使用 `ModelMapper`
      * 实现，提供更灵活和强大的映射功能。
@@ -45,7 +50,7 @@ public class BeanCopyUtils {
     }
 
     /**
-     * 已弃用的方法，用于将源对象转换为指定类型的目标对象。
+     * ！！！将在下个版本移除！！！ 已弃用的方法，用于将源对象转换为指定类型的目标对象。
      * <p>
      * 此方法将在后续版本中弃用，建议使用 `ModelMapper` 实现以获得更灵活和强大的映射功能。
      * </p>
@@ -81,15 +86,11 @@ public class BeanCopyUtils {
      * @return 转换后的目标对象实例
      */
     public static <T> T copy(Object source, Class<T> clazz) {
-        ModelMapper mapper = new ModelMapper();
-        mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
-        return mapper.map(source, clazz);
+        return modelMapper.map(source, clazz);
     }
 
     public static <T, M> M copy(T source, M target) {
-        ModelMapper mapper = new ModelMapper();
-        mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
-        mapper.map(source, target);
+        modelMapper.map(source, target);
         return target;
     }
 
@@ -110,10 +111,8 @@ public class BeanCopyUtils {
      * @return 无返回值，目标对象的属性会被源对象对应的属性值覆盖
      */
     public static <T, M> M copyNotIgnoreNull(T source, M target) {
-        ModelMapper mapper = new ModelMapper();
-        mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         modelMapper.getConfiguration().setSkipNullEnabled(false); // 不跳过null值
-        mapper.map(source, target);
+        modelMapper.map(source, target);
         return target;
     }
 
@@ -134,9 +133,7 @@ public class BeanCopyUtils {
      * @return 转换后的目标对象列表，每个对象都是 `targetClass` 类型的新实例
      */
     public static <Source, Target> List<Target> copyList(List<Source> sourceList, Class<Target> targetClass) {
-        return sourceList.stream().map(source -> modelMapper.map(source, targetClass)).collect(Collectors.toList()); // "Stream.toList()" method should be used
-                                                                                                                     // instead of "collectors" when
-                                                                                                                     // unmodifiable list needed
+        return sourceList.stream().map(source -> modelMapper.map(source, targetClass)).collect(Collectors.toList());
     }
 
 }

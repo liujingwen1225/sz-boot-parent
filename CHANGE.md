@@ -1,4 +1,111 @@
 # 更新日志
+
+## v1.2.1-beta （20250509）
+
+> [!NOTE]
+>
+> [升级指南](https://szadmin.cn/md/Help/doc/other/upgrade.html#v1.2.1-beta)
+
+- sz-boot-parent：
+
+  - 新增：Liquibase数据库管理，弃用Flyway配置 (**Flyway 将于v1.3.0-beta 版本弃用**)。
+  - 修改：已支持Liquibase，默认配置关闭Flyway（将于v1.3.0-beta版本弃用）。
+  - 修复：部分菜单路由名称与组件名称不一致时导致的菜单keep-alive缓存失效问题。
+  - 修改：README.md 添加deepwiki。感谢[dongyu6/main](https://github.com/dongyu6)。
+
+- sz-admin：
+
+  - 优化：.env环境变量，无需指定`.env.development.local `文件即可使用。
+  - 升级：sass 1.79.6 -> 1.87.0, vite 5.4.17 -> 6.3.4，以及其他依赖的同步升级。
+  - 修复：部分菜单路由名称与组件名称不一致时导致的菜单keep-alive缓存失效问题。
+  - 修改：README.md 添加deepwiki。（感谢[dongyu6/main](https://github.com/dongyu6)）。
+
+## v1.2.0-beta （20250422）
+> [!NOTE]
+>
+> [升级指南](https://szadmin.cn/md/Help/doc/other/upgrade.html#v1-2-0-beta)
+- sz-boot-parent：
+  - 优化：[代码生成器] - 为生成代码增加是否忽略表前缀的功能。PR[#140](https://github.com/feiyuchuixue/sz-boot-parent/pull/140)（感谢[crash](https://github.com/processcrash)）。
+  - 优化：重构**数据权限**核心逻辑，修复部分问题。
+  - 修复：[数据填充]-deptScope属性失败问题
+  - 优化：Websocket相关：简化SocketMessage和TransferMessage类的泛型使用
+  - 新增：系统消息功能
+  - 新增：[演示] 消息发送接口
+  - 新增：[CICD] Docker Sz-Socket CI Prod.yml
+  - 优化：提高用户元数据变更性能
+- sz-admin：
+  - 修复：滑块验证码在某些浏览器无法滑动的问题
+  - 新增：分类筛选器组件
+  - 优化：滑块验证码的耗时计算逻辑
+  - 新增：系统消息功能（搭配Websocket可体验完整功能）
+  - 新增：功能演示
+  - 新增：关于项目
+  - 新增：全局菜单：[消息、功能演示菜、关于项目]
+
+## v1.1.0-beta （20250406）
+
+> [!NOTE]
+>
+> [升级指南](https://szadmin.cn/md/Help/doc/other/upgrade.html)
+
+- sz-boot-parent：
+  - 依赖升级：
+    - spring-boot-starter-parent：3.4.2  -> 3.4.4。
+    - mybatis-flex.version：1.10.8  -> 1.10.9。
+    - sa-token：1.40.0 -> 1.41.0。
+    - swagger-annotations：2.2.27 -> 2.2.29。
+    - aspectjweaver：1.9.22.10 -> 1.9.23。
+    - springdoc-openapi-starter-webmvc-ui: 2.8.3 -> 2.8.6
+    - aws-crt： 0.33.7 -> 0.37.0
+    - HikariCP：6.2.1 -> 6.3.0
+    - aws.s3：2.29.50 -> 2.31.11
+  - 优化：[代码生成器] - 添加/api/types/*.ts生成模板
+- sz-admin：
+  - 升级：Eslint8.x -> Eslint9
+  - 新增：`useDictOptions` Hook
+  - 优化：同步`useDictOptions` Hook写法
+  - 修复：某些情况下部门树多选报错的问题
+  - 优化：@import scss 官方已不推荐使用，修改为 @use
+  - 更新：pnpm 依赖
+
+## v1.0.2-beta （20250302）
+
+- sz-boot-parent：
+  - 依赖升级：
+    - mybatis-flex.version：1.10.7  -> 1.10.8。
+  - 优化：更新OSS配置，添加协议scheme支持并**弃用isHttps字段**。
+    -  <font color="red">可能的破坏性更新： </font>请切换`isHttps=true/false"` 为` scheme="https/http"`
+  - 优化：重构isNotNull方法，支持更广泛的集合类型。
+  - 优化：重构BeanCopyUtils以使用单例ModelMapper实例。
+  - 优化：【代码生成器】添加将bigint类型映射成long Java类型处理。
+  - 优化：在EntityChangeListener onInsert事件中添加对updateTime和updateId的初始设置。
+  - 修复：Excel导出时Long类型在某些情况下报错的问题。
+  - 新增：系统字典查询-根据类型查询接口。
+- sz-admin：
+  - 新增：[Hook] useDict 方法。（可使用此方法更新指定typeCode的字典缓存）。
+  - 新增：[Hook] useDict 的演示案例。
+  - 修改：删除字典接口注释。**Issue**[#11](https://github.com/feiyuchuixue/sz-admin/issues/11)（感谢[Kang-Yang](https://github.com/Kang-Yang)）。
+  - 修改：README中的地址更正。**Issue**[#12](https://github.com/feiyuchuixue/sz-admin/issues/12)（感谢[Kang-Yang](https://github.com/Kang-Yang)）。
+## v1.0.1-beta （20250215）
+
+- sz-boot-parent：
+  - 依赖升级：
+    - spring-boot-starter-parent：3.4.1  -> 3.4.2。
+    - mybatis-flex.version：1.10.5  -> 1.10.7。
+    - sa-token：1.39.0 -> 1.40.0。
+    - excel-fastexcel：1.0.0 -> 1.1.0。
+    - mysql-connector-j：9.1.0 -> 9.2.0。
+  - 优化：字典类型删除时同步清除缓存。
+  - 优化：统一异常code规范，追加prefix。
+  - 优化：指定目标账户密码修改后，触发“踢下线”功能。
+  - 修改：菜单树增加返回参数。
+  - 优化: 日志格式。**Issue**[#10](https://github.com/feiyuchuixue/sz-admin/issues/10)。（感谢[129duckflew](https://github.com/129duckflew)）。
+  - 新增：第三方开源库和许可证文件说明
+- sz-admin：
+  - 修复：无效Token响应码不一致的问题。
+  - 修复：AES-GCM加密方法在某些场景（浏览器）不可用的问题（行为验证码）。
+  - 优化：【代码生成器】- 生成信息中**上级菜单=目录**时与模块名的联动。
+  - 新增：第三方开源库和许可证文件说明
 ## v1.0.0-beta （20250128）| 大型更新
 
 - sz-boot-parent：
